@@ -42,7 +42,7 @@
     device = null;
   }
 
-  ext.positionX = function(image){
+  ext.positionX = function(){
     return 5;
   }
 
