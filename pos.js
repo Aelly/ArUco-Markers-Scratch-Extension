@@ -108,6 +108,11 @@ function getPos(markers){
                                                         +" z: " + (pose.bestTranslation[2] | 0);
 
   }
+  else{
+    document.getElementById("text_position").innerHTML = "x: NaN"
+                                                        +" y: NaN"
+                                                        +" z: Nan";
+  }
 }
 
 function drawId(markers){
