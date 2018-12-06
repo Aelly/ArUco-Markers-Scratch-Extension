@@ -1,40 +1,60 @@
 (function(ext) {
-    var alarm_went_off = false; // This becomes true after the alarm goes off
 
-    // Cleanup function when the extension is unloaded
-    ext._shutdown = function() {};
+  var device = null;
+  var image = null;
+  var poller = null;
 
-    // Status reporting code
-    // Use this to report missing hardware, plugin or unsupported browser
-    ext._getStatus = function() {
-        return {status: 2, msg: 'Ready'};
-    };
+  // Cleanup function when the extension is unloaded
+  ext._shutdown = function() {};
 
-    ext.set_alarm = function(time) {
-       window.setTimeout(function() {
-           alarm_went_off = true;
-       }, time*1000);
-    };
+  // Status reporting code
+  // Use this to report missing hardware, plugin or unsupported browser
+  ext._getStatus = function() {
+    if(!device) return {status: 1, msg: 'Device not connected'};
+    return {status: 2, msg: 'Ready'};
+  };
 
-    ext.when_alarm = function() {
-       // Reset alarm_went_off if it is true, and return true
-       // otherwise, return false.
-       if (alarm_went_off === true) {
-           alarm_went_off = false;
-           return true;
-       }
+  function deviceOpened(dev) {
+    // if device fails to open, forget about it
+    if (dev == null) device = null;
 
-       return false;
-    };
+    // otherwise start polling
+    poller = setInterval(function() {
+      rawData = device.read();
+    }, 20);
+  };
+  ext._deviceConnected = function(dev) {
+    if(device) return;
 
-    // Block and block menu descriptions
-    var descriptor = {
-        blocks: [
-            ['', 'run alarm after %n seconds', 'set_alarm', '2'],
-            ['h', 'when alarm goes off', 'when_alarm'],
-        ]
-    };
+    device = dev;
+    device.open(deviceOpened);
+  };
 
-    // Register the extension
-    ScratchExtensions.register('Alarm extension', descriptor, ext);
+  ext._deviceRemoved = function(dev) {
+    if(device != dev) return;
+    if(poller) poller = clearInterval(poller);
+    device = null;
+  };
+
+  ext._shutdown = function() {
+    if(poller) poller = clearInterval(poller);
+    if(device) device.close();
+    device = null;
+  }
+
+  ext.positionX = function(){
+    return 5;
+  }
+
+  // Block and block menu descriptions
+  var descriptor = {
+    blocks: [
+      // Block type, block name, function name, param1 default value, param2 default value
+      ['r', 'marker X position', 'positionX'],
+    ]
+  };
+
+  // Register the extension
+  var hid_info = {type: 'hid', vendor: 0x046d, product: 0x0825};
+  ScratchExtensions.register('ArUco Markers', descriptor, ext, hid_info);
 })({});
