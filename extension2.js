@@ -12,6 +12,8 @@
 
   var image = undefined;
 
+  var lastPosX, lastPosY, lastPosZ ;
+
   function checkImport(){
     console.log("import success")
   }
@@ -60,10 +62,6 @@
       console.log(err.name + ": " + err.message);
     }
   );
-
-  detector = new AR.Detector();
-  posi = new POS.Posit(55, hidden_canvas.width);
-
   console.log("Initialization end");
 }
 
@@ -82,36 +80,52 @@ function takeSnapshot(){
   return imageData;
 }
 
-ext.getPos = function() {
+function getPos(){
   image = takeSnapshot();
 
   var markers = detector.detect(image);
-
+  console.log(lastPosX);
   if (markers.length > 0){
     var corners = markers[0].corners;
-    console.log(corners);
+    console.log("Marker detected");
     for (var i = 0; i < corners.length; ++ i){
       var corner = corners[i];
 
-      corner.x = corner.x - (canvas.width / 2);
-      corner.y = (canvas.height / 2) - corner.y;
+      corner.x = corner.x - (hidden_canvas.width / 2);
+      corner.y = (hidden_canvas.height / 2) - corner.y;
     }
 
-    pose = posit.pose(corners)
-    console.log((pose.bestTranslation[1]|0));
-    return (pose.bestTranslation[1] | 0);
+    pose = posit.pose(corners);
+    lastPosX = (pose.bestTranslation[0] | 0);
+    lastPosY = (pose.bestTranslation[1] | 0);
+    lastPosZ = (pose.bestTranslation[2] | 0);
   }
+  return [lastPosX, lastPosY, lastPosZ];
+}
 
-  //return 0;
+ext.getXPos = function(){
+  pos = getPos();
+  console.log(pos[0]);
+  return pos[0];
 }
 
 ext.getYPos = function(){
-  console.log("Get Y pos");
-  return 5;
+  pos = getPos();
+  return pos[1];
+}
+
+ext.getZPos = function(){
+  pos = getPos();
+  return pos[2];
 }
 
 ext.initialize = function(){
   initializeCamera();
+  detector = new AR.Detector();
+  posit = new POS.Posit(55, hidden_canvas.width);
+  lastPosX = 0;
+  lastPosY= 0;
+  lastPosZ = 0;
 }
 
 // Cleanup function when the extension is unloaded
@@ -132,8 +146,9 @@ var descriptor = {
   blocks: [
     // Block type, block name, function name, param1 default value, param2 default value
     ['w', 'initializeCamera', 'initialize'],
-    ['r', 'X position', 'getPos'],
+    ['r', 'X position', 'getXPos'],
     ['r', 'Y position', 'getYPos'],
+    ['r', 'Z position', 'getZPos'],
   ]
 };
 
