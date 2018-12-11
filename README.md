@@ -74,6 +74,9 @@ Once completed this extension could be use for two things:
 
 ## Evaluation
 
+To evaluate our project with kids we created a survey, the important thing to know is if it add interaction and fun to application. To make it easy our survey consist of 4 statements and the subject declare if he agree with it or not. 
+![evaluation image](https://github.com/Aelly/ArUco-Markers-Scratch-Extension/blob/master/readme_img/evaluation.png)
+
 ## TODO
 
 - [x] get the position of marker
