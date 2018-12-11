@@ -91,7 +91,7 @@ function getPos(){
     for (var i = 0; i < corners.length; ++ i){
       var corner = corners[i];
 
-      corner.x = corner.x - (hidden_canvas.width / 2);
+      corner.x = (hidden_canvas.width / 2) - corner.x;
       corner.y = (hidden_canvas.height / 2) - corner.y;
     }
 
