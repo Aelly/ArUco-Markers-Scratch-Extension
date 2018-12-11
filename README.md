@@ -1,6 +1,7 @@
 # ArUco-Markers-Scratch-Extension
 
-This extension allow the users to use ArUco markers to developp Augmented Reality application in Scratch.
+This extension allow the users to use ArUco markers to developp Augmented Reality application in Scratch.  
+This project is meant to be used in ScratchX and uses [jcmellado port to JavaScript of the ArUco library](https://github.com/jcmellado/js-aruco)
 
 ## How to use it
 
