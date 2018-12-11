@@ -68,6 +68,10 @@ navigator.mediaDevices
 
 ## Application
 
+Once completed this extension could be use for two things:
+-Allow kids to build small game using simple augmented reality features, the markers use in the library can easily be printed or even drawn (as long as they respect the constraint stated in the library documentation).
+-Add interactions to existing project, for example in a project meant to teach basic operation for kids, the operation could appear on the screen and to see the answer the user could show the corresponding marker.
+
 ## Evaluation
 
 ## TODO
