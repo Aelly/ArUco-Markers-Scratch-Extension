@@ -153,5 +153,5 @@ var descriptor = {
 };
 
 // Register the extension
-ScratchExtensions.register('Sample extension', descriptor, ext);
+ScratchExtensions.register('ArUco Markers', descriptor, ext);
 })({});
