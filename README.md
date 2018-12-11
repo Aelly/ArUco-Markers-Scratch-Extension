@@ -5,4 +5,8 @@ This extension allow the users to use ArUco markers to developp Augmented Realit
 ## How to use it
 
 1. Go to https://scratchx.org/#scratch
-2. Go into "More Blocks" and shift + left click on "Load Experimental Extension"
+2. Go into "More Blocks" and shift + left click on "Load Experimental Extension"  
+![import exemple image](https://github.com/Aelly/ArUco-Markers-Scratch-Extension/blob/master/readme_img/import.png)
+3. In the new window select the javascript extension file
+3. If the import was successful you should see a green dot and the imported block  
+![import OK](https://github.com/Aelly/ArUco-Markers-Scratch-Extension/blob/master/readme_img/import_ok.png)
