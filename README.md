@@ -16,6 +16,56 @@ This project is meant to be used in ScratchX and uses [jcmellado port to JavaScr
 
 ## Implementation
 
+The first step is to have access to the webcam, this is what the "initializeCamera" block is for. In this block we create an hidden canvas and video element that will be used later and we link the video stream from the webcam to our hidden video element. This is also where we initialize the dectector that'll be used later (see the javascript ArUco library).
+```
+videoElement = document.createElement('video');
+videoElement.id = "camera-stream";
+hidden_canvas = document.createElement('canvas');
+hidden_canvas.id = "imageCanvas";
+navigator.mediaDevices
+    .getUserMedia({ video: true })
+    .then(function(stream) {
+        videoElement.srcObject = stream;
+ })});
+ 
+ ...
+ 
+ detector = new AR.Detector();
+ posit = new POS.Posit(55, hidden_canvas.width);
+ ```
+ Then when we want to access the position of our marker we first need to take a snapshot of our video stream.
+ 
+ ```
+ imageData = context.getImageData(0,0,hidden_canvas.width, hidden_canvas.height);
+ return imageData;
+ ```
+ 
+ Lastly in this image we can use our detector object to detect the marker, get the corner and compute the marker's position.
+ 
+ ```
+ function getPos(){
+  image = takeSnapshot();
+
+  var markers = detector.detect(image);
+  if (markers.length > 0){
+    var corners = markers[0].corners;
+    console.log("Marker detected");
+    for (var i = 0; i < corners.length; ++ i){
+      var corner = corners[i];
+
+      corner.x = (hidden_canvas.width / 2) - corner.x;
+      corner.y = (hidden_canvas.height / 2) - corner.y;
+    }
+
+    pose = posit.pose(corners);
+    lastPosX = (pose.bestTranslation[0] | 0);
+    lastPosY = (pose.bestTranslation[1] | 0);
+    lastPosZ = (pose.bestTranslation[2] | 0);
+  }
+  return [lastPosX, lastPosY, lastPosZ];
+}
+```
+
 ## Application
 
 ## Evaluation
