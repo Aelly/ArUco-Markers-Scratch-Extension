@@ -13,6 +13,9 @@ This project is meant to be used in ScratchX and uses [jcmellado port to JavaScr
 ![import OK](https://github.com/Aelly/ArUco-Markers-Scratch-Extension/blob/master/readme_img/import_ok.png)
 5. In your project you need to use the initializeCamera at least once at the start, you can then access the position of the marker using the 3 others blocks. For example here is a project that use the marker to move a sprite.
 https://youtu.be/NR1tGGWwIjY
+6. Print a marker following the pattern described in the library documentation, for exemple:
+<img src="https://github.com/Aelly/ArUco-Markers-Scratch-Extension/blob/master/readme_img/aruco_marker_303.png" width="200">
+7. Move the marker in front of the camera to move the object in Scratch
 
 ## Implementation
 
